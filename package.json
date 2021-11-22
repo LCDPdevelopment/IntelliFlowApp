@@ -18,6 +18,9 @@
     "react-form-builder2": "^0.9.5",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
+    "react-select": "^5.2.1",
+    "react-tab-set": "^1.1.50",
+    "react-tabs": "^3.2.3",
     "shortid": "^2.2.16",
     "styled-components": "^5.2.0",
     "webfontloader": "^1.6.28"

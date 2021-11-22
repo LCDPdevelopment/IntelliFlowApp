@@ -109,7 +109,7 @@ function ApplicationCreator() {
                             {/* <h6 class="card-subtitle mb-2 text-muted">-------------</h6> */}
                             <p class="card-text" style={{ 'font-size': '22px' }}>{cards.description}</p>
 
-                            <a href="/" class="card-link">Open Editor</a>
+                            <a href={'/?id=' + cards.name} class="card-link">Open Editor</a>
                         </div>
                     </div>
                 ))}

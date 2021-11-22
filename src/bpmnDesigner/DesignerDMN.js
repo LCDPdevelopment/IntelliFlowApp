@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Switch, Route, Redirect, useLocation
 } from 'react-router-dom'
-import * as BpmnEditor from "@kogito-tooling/kie-editors-standalone/dist/bpmn"
+// import * as BpmnEditor from "@kogito-tooling/kie-editors-standalone/dist/bpmn"
+import * as BpmnEditor from "@kogito-tooling/kie-editors-standalone/dist/dmn"
+
+
 import BpmnJS from 'bpmn-js/dist/bpmn-navigated-viewer.production.min.js';
 
 
 import axios from "axios";
 
-function Designer(props) {
+function DesignerDMN(props) {
   const useQuery= () => {
     return new URLSearchParams(useLocation().search);
 }
@@ -16,14 +19,14 @@ function Designer(props) {
 
     var editor;
   var [diagram, diagramSet] = useState("");
-  const container = document.getElementById("container");
+  const container = document.getElementById("dmncontainer");
   console.log("container",container);
   useEffect(() => {
     if (diagram.length === 0) {
       try {
         axios
         .get(
-          "http://localhost:8080/BPMNprocess/read/"+params.get('id'), { headers: { "Content-Type": "application/json" } }
+          "http://localhost:8080/BPMNprocess/readDMN/"+params.get('id'), { headers: { "Content-Type": "application/json" } }
         )
         .then((r) => {
           console.log("r.data",r);
@@ -85,23 +88,23 @@ if(diagram=="NoData")diagram="";
       if (err) {
       } else {
         // <<====== ***** HERE *****
-        var elementRegistry = viewer.get('elementRegistry');
-        elementRegistry.forEach(async function(elem, gfx) {
-          if (elem.businessObject.$instanceOf('bpmn:UserTask')){
-            console.log("userTask",elem)
-            formElements.push(elem.businessObject.name)
-            // do something with the task
-          }
-        });
-        const postData = { appName: params.get('id'),forElements:formElements };
-        axios.post('http://localhost:8080/BPMNprocess/formElements', postData)
+        // var elementRegistry = viewer.get('elementRegistry');
+        // elementRegistry.forEach(async function(elem, gfx) {
+        //   if (elem.businessObject.$instanceOf('bpmn:UserTask')){
+        //     console.log("userTask",elem)
+        //     formElements.push(elem.businessObject.name)
+        //     // do something with the task
+        //   }
+        // });
+        // const postData = { appName: params.get('id'),forElements:formElements };
+        // axios.post('http://localhost:8080/BPMNprocess/formElements', postData)
 
         console.log("formElements",formElements);
       }
     });
-    console.log(formElements);
+    // console.log(formElements);
     const postData = { xml: data,fileName:params.get('id') };
-    axios.post('http://localhost:8080/BPMNprocess/create', postData)
+    axios.post('http://localhost:8080/BPMNprocess/createDMN', postData)
     .then(response =>{
       console.log("Done");
     });
@@ -118,7 +121,7 @@ if(diagram=="NoData")diagram="";
   return (
     <div className="App">
       <div
-        id="container"
+        id="dmncontainer"
         style={{
           border: "1px solid #000000",
           height: "90vh",
@@ -130,4 +133,4 @@ if(diagram=="NoData")diagram="";
     </div>
   );
 }
-export default Designer;
+export default DesignerDMN;
